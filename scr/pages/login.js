@@ -35,7 +35,7 @@ const KeyboardAvoidingComponent = ({navigation}) => {
           <View style={styles.btnContainer}>
           <Button
           style={{backgroundColor:Colors.orange500,justifyContent:'center',flex:1,marginRight:10}}
-           mode="contained" onPress={() => console.log('Pressed')}>
+           mode="contained" onPress={() => navigation.navigate('Home')}>
                 Fechar 
           </Button>
           <Button 

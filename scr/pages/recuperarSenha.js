@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import { View, KeyboardAvoidingView, StyleSheet, Text, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity  } from 'react-native';
 import { TextInput, Button, Colors, Title, Paragraph } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
-export default function App(params) {
+export default function App({navigation}) {
 
     const [codigo, setCodigo] = React.useState('');
     const [senha, setSenha] = React.useState('');
@@ -101,7 +101,7 @@ export default function App(params) {
           <View style={styles.btnContainer}>
           <Button
           style={{backgroundColor:Colors.orange500,justifyContent:'center',flex:1,marginRight:10}}
-           mode="contained" onPress={() => console.log('Pressed')}>
+           mode="contained" onPress={() => navigation.navigate('Home')}>
                 cancelar
           </Button>
           <Button 
