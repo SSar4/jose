@@ -1,12 +1,39 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, StyleSheet, Text, Platform, TouchableWithoutFeedback, Keyboard  } from 'react-native';
+import { View,Alert, KeyboardAvoidingView,
+   StyleSheet, Text, Platform,
+    TouchableWithoutFeedback, Keyboard  } from 'react-native';
+    import AsyncStorage from '@react-native-async-storage/async-storage'
+import {useUsuario} from '../contexto/usuario'
 import { TextInput, Button, Colors, Title } from 'react-native-paper';
+import api from '../sever/index' 
 
 const KeyboardAvoidingComponent = ({navigation}) => {
     const [text, setText] = React.useState('');
     const [senha, setSenha] = React.useState();
+    const {usuario, setUsuario} = useUsuario()
+  console.log('usuar'+usuario)
+   const login = ()=>{
+     let user = new Object();
+     user.email =text
+     user.senha= senha
+    api.post('http://192.168.0.103:8084/api/usuarios/login',{
+     email:text,
+     senha:senha
+    }) .then((response) => {
+      //navigation.navigate('Perfil')
+      setUsuario(response.data)
+      /*AsyncStorage.setItem('@usuario',JSON.stringify(response.data))
+      
+      .then((res)=>Alert.alert('Ola bem-vindo')).catch((E)=>Alert.alert("Erro no login"))*/
 
-   
+    }).
+    catch((response) => Alert.alert("Usuário ou senha incorretos!")
+
+    )
+
+    
+        
+   }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -17,7 +44,7 @@ const KeyboardAvoidingComponent = ({navigation}) => {
           <Text style={styles.header}>EventService</Text>
           <View style={styles.textInput}>
           <TextInput
-            label="Email"
+            label="Email" autoCapitalize="none"
             theme={{colors:{primary:'#00aaff'}}}
             value={text}
             onChangeText={text => setText(text)}
@@ -28,7 +55,7 @@ const KeyboardAvoidingComponent = ({navigation}) => {
             secureTextEntry={true}
             label="Senha"
             theme={{colors:{primary:'#00aaff'}}}
-            value={text}
+            value={senha}
             onChangeText={text => setSenha(text)}
             />
           </View>
@@ -41,7 +68,7 @@ const KeyboardAvoidingComponent = ({navigation}) => {
           <Button 
           style={{backgroundColor:Colors.green500,justifyContent:'center',flex:1}}
           labelStyle={{textAlign:'center'}}
-           mode="contained" onPress={() => console.log('Pressed')}>
+           mode="contained" onPress={login}>
              Entrar
           </Button>
           </View>

@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   StatusBar,
 } from 'react-native';
+import { Avatar } from 'react-native-paper';
 import { Appbar,Colors } from 'react-native-paper';
 import {useUsuario} from '../contexto/usuario'
 
@@ -21,7 +22,7 @@ const App = ({navigation}) => {
   const {usuario} = useUsuario()
   const _handleSearch = () => console.log('Searching');
 
-  const _handleMore = () => usuario ? navigation.navigate('Login') : navigation.navigate('Login');
+  const _handleMore = () => navigation.navigate('Login');
 
   useEffect(() => getData(), []);
 
@@ -29,16 +30,18 @@ const App = ({navigation}) => {
     console.log('getData');
     setLoading(true);
     //Service to get the data from the server to render
-    fetch('https://aboutreact.herokuapp.com/getpost.php?offset='
+    fetch('http://192.168.0.103:8081/api/eventos/?page='
           + offset)
+          
       //Sending the currect offset with get request
       .then((response) => response.json())
       .then((responseJson) => {
         //Successful response
         setOffset(offset + 1);
         //Increasing the offset for the next API call
-        setDataSource([...dataSource, ...responseJson.results]);
+        setDataSource([...dataSource, ...responseJson]);
         setLoading(false);
+        console.log(responseJson)
       })
       .catch((error) => {
         console.error(error);
@@ -71,9 +74,7 @@ const App = ({navigation}) => {
       <Text
         style={styles.itemStyle}
         onPress={() => getItem(item)}>
-        {item.id}
-        {'.'}
-        {item.title.toUpperCase()}
+     {item.titulo}
       </Text>
     );
   };
@@ -95,6 +96,7 @@ const App = ({navigation}) => {
     //Function for click on an item
     alert('Id : ' + item.id + ' Title : ' + item.title);
   };
+  
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -102,7 +104,17 @@ const App = ({navigation}) => {
     <Appbar.Header style={{backgroundColor:Colors.green400}}>
       <Appbar.Content title="EventService" color='white'/>
       <Appbar.Action icon="calendar" onPress={_handleSearch} color='white'/>
-      <Appbar.Action icon={usuario ? 'perfil' : "login"} onPress={_handleMore} color='white'/>
+      {
+        usuario? <>
+                    <Avatar.Image size={24}source={{
+    uri:
+      `data:image/png;base64,${usuario[0].foto}`,
+  }} />
+                </>:<> 
+                <Appbar.Action icon='login' onPress={_handleMore} color='white'/>
+                </>
+      }
+     
     </Appbar.Header>
       <View style={styles.container}>
         <FlatList

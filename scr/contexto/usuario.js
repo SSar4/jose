@@ -7,7 +7,7 @@ export default function CarrinhoProvider({children}){
 
 
     const [usuario,setUsuario] = useState()
-
+//console.log(usuario[0])
       useEffect(() => {
         (async () => {
             const aux = await AsyncStorage.getItem("@usuario")
@@ -19,7 +19,7 @@ export default function CarrinhoProvider({children}){
         })();
       },[]);
 
-      const store = {usuario}
+      const store = {usuario,setUsuario}
      
       return(
           <UsuarioContext.Provider value={store}>
@@ -31,6 +31,6 @@ export default function CarrinhoProvider({children}){
 //PROPRIO HOOCK
 export function useUsuario() {
     const contextusuario = useContext(UsuarioContext)
-    const {usuario} = contextusuario
-    return {usuario}
+    const {usuario,setUsuario} = contextusuario
+    return {usuario,setUsuario}
 }
