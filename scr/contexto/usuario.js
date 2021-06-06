@@ -7,7 +7,7 @@ export default function CarrinhoProvider({children}){
 
 
     const [usuario,setUsuario] = useState()
-//console.log(usuario[0])
+console.log(usuario)
       useEffect(() => {
         (async () => {
             const aux = await AsyncStorage.getItem("@usuario")

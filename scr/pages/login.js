@@ -20,12 +20,15 @@ const KeyboardAvoidingComponent = ({navigation}) => {
      email:text,
      senha:senha
     }) .then((response) => {
+      if(response.data[0].id!=null){
       //navigation.navigate('Perfil')
       setUsuario(response.data)
-      /*AsyncStorage.setItem('@usuario',JSON.stringify(response.data))
       
-      .then((res)=>Alert.alert('Ola bem-vindo')).catch((E)=>Alert.alert("Erro no login"))*/
-
+      AsyncStorage.setItem('@usuario',JSON.stringify(response.data))
+      
+      .then((res)=>Alert.alert('Ola bem-vindo')).catch((E)=>Alert.alert("Erro no login"))
+      }
+      else Alert.alert("Usuário ou senha incorretos!")
     }).
     catch((response) => Alert.alert("Usuário ou senha incorretos!")
 

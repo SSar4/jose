@@ -1,5 +1,6 @@
 
-import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from 'react';
 
 import {
   SafeAreaView,
@@ -10,19 +11,26 @@ import {
   FlatList,
   ActivityIndicator,
   StatusBar,
+  Alert,
+  
 } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { Appbar,Colors } from 'react-native-paper';
-import {useUsuario} from '../contexto/usuario'
+import { Appbar, Colors } from 'react-native-paper';
+import { useUsuario } from '../contexto/usuario'
 
-const App = ({navigation}) => {
+const App = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState([]);
   const [offset, setOffset] = useState(1);
-  const {usuario} = useUsuario()
+  const { usuario,setUsuario} = useUsuario()
   const _handleSearch = () => console.log('Searching');
 
   const _handleMore = () => navigation.navigate('Login');
+  async function logout(){
+    await AsyncStorage.removeItem('@usuario')
+    Alert.alert("Volte logo")
+    setUsuario(null)
+  }
 
   useEffect(() => getData(), []);
 
@@ -31,8 +39,8 @@ const App = ({navigation}) => {
     setLoading(true);
     //Service to get the data from the server to render
     fetch('http://192.168.0.103:8081/api/eventos/?page='
-          + offset)
-          
+      + offset)
+
       //Sending the currect offset with get request
       .then((response) => response.json())
       .then((responseJson) => {
@@ -61,20 +69,20 @@ const App = ({navigation}) => {
           {loading ? (
             <ActivityIndicator
               color="white"
-              style={{marginLeft: 8}} />
+              style={{ marginLeft: 8 }} />
           ) : null}
         </TouchableOpacity>
       </View>
     );
   };
 
-  const ItemView = ({item}) => {
+  const ItemView = ({ item }) => {
     return (
       // Flat List Item
       <Text
         style={styles.itemStyle}
         onPress={() => getItem(item)}>
-     {item.titulo}
+        {item.titulo}
       </Text>
     );
   };
@@ -96,26 +104,29 @@ const App = ({navigation}) => {
     //Function for click on an item
     alert('Id : ' + item.id + ' Title : ' + item.title);
   };
-  
+
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-    <StatusBar backgroundColor={Colors.green400}></StatusBar>
-    <Appbar.Header style={{backgroundColor:Colors.green400}}>
-      <Appbar.Content title="EventService" color='white'/>
-      <Appbar.Action icon="calendar" onPress={_handleSearch} color='white'/>
-      {
-        usuario? <>
-                    <Avatar.Image size={24}source={{
-    uri:
-      `data:image/png;base64,${usuario[0].foto}`,
-  }} />
-                </>:<> 
-                <Appbar.Action icon='login' onPress={_handleMore} color='white'/>
-                </>
-      }
-     
-    </Appbar.Header>
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar backgroundColor={Colors.green400}></StatusBar>
+      <Appbar.Header style={{ backgroundColor: Colors.green400 }}>
+        <Appbar.Content title="EventService" color='white' />
+        <Appbar.Action icon="calendar" onPress={_handleSearch} color='white' />
+        {
+          usuario ? <>
+            <TouchableOpacity onPress={() => logout()}>
+              <Avatar.Image  size={24} source={{
+                uri:
+                  `data:image/png;base64,${usuario[0].foto}`,
+              }} />
+            </TouchableOpacity>
+
+          </> : <>
+            <Appbar.Action icon='login' onPress={_handleMore} color='white' />
+          </>
+        }
+
+      </Appbar.Header>
       <View style={styles.container}>
         <FlatList
           data={dataSource}
