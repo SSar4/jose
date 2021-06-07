@@ -18,39 +18,38 @@ const MyComponent = ({ navigation }) => {
     
     const [text, setText] = React.useState('');
     const {usuario,setUsuario} = useUsuario()
-    function validar(){
-        api.post('http://192.168.0.103:8084/api/usuarios/habilitar/',{
-            id:text
-
-        }).then((res)=>{
-            
-                AsyncStorage.setItem('@usuario',JSON.stringify(res.data)).catch((e)=>{
-                    Alert.alert('Erro ao salvat no storege')
-                })
-                setUsuario(res.data)
-            
-        }).catch((e)=>{
-            Alert.alert("erro ao validar tente novamente")
-        })
-    }
+    function recuperarsenha() {
+        api.post('http://192.168.0.103:8084/api/usuarios/reenviaremail', {
+          email: text
+    
+        }).then((response) => {
+          if (response.status == 200) {
+            navigation.navigate('RecuperarSenha')
+    
+          }
+        }).
+          catch((response) => Alert.alert("Email incorretos!")
+    
+          )
+      }
     return (
         <View style={styles.container}>
             <Appbar.Header style={styles.Header}>
                 <Appbar.BackAction onPress={_goBack} color='white' />
-                <Appbar.Content title="Validar conta" titleStyle={{ color: 'white' }} />
+                <Appbar.Content title="Recuperar senha" titleStyle={{ color: 'white' }} />
             </Appbar.Header>
             <View style={styles.grid}>
-                <Title style={styles.label}>Insira o código que enviamos para o email que você cadastrou</Title>
+                <Title style={styles.label}> Insira o email para recuperar sua senha</Title>
                 <View style={styles.gridinput}>
                     <TextInput
                         theme={{ colors: { primary: '#BADA55' } }}
-                        label="codigo"
+                        label="email" autoCapitalize='none' keyboardType='email-address'
                         value={text}
                         onChangeText={text => setText(text)}
                     />
                 </View>
-                <Button style={styles.btn} icon="check" mode="contained" onPress={() =>validar()}>
-                    Validar
+                <Button style={styles.btn} icon="send" mode="contained" onPress={() =>recuperarsenha()}>
+                    Enviar
                </Button>
             </View>
 
@@ -86,7 +85,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'normal',
         alignSelf: 'flex-start',
-        marginTop: 50
+        marginTop: 50,
+        fontSize:18,
+        width:'100%'
     },
     btn:{
         width: '85%',

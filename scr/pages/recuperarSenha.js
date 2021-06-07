@@ -1,7 +1,8 @@
 import React, {useMemo} from 'react';
-import { View, KeyboardAvoidingView, StyleSheet, Text, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity  } from 'react-native';
+import { View,ScrollView, KeyboardAvoidingView, StyleSheet, Text, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity  } from 'react-native';
 import { TextInput, Button, Colors, Title, Paragraph } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
+import api from '../sever/index'
 export default function App({navigation}) {
 
     const [codigo, setCodigo] = React.useState('');
@@ -40,8 +41,24 @@ export default function App({navigation}) {
             return(<></>)
         }
     }
-
+    function novasena() {
+      api.post('http://192.168.0.103:8084/api/usuarios/novaSenha', {
+        id: codigo,
+        senha:senha
+  
+      }).then((response) => {
+        if (response.status == 200) {
+          console.log(response.data)
+          navigation.navigate('Login')
+  
+        }
+      }).
+        catch((response) => Alert.alert("Erro tente novamente!")
+  
+        )
+    }
     return(
+      <ScrollView>
      <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
@@ -51,6 +68,7 @@ export default function App({navigation}) {
           <Text style={styles.header}>Recuperar Senha</Text>
           <View>
           <TextInput
+           style={{marginTop:10}}
           theme={{colors:{primary:'#00aaff'}}}
             label="Digite seu codigo"
             value={codigo}
@@ -60,6 +78,7 @@ export default function App({navigation}) {
           </View>
           <View>
           <TextInput
+           style={{marginTop:10}}
           theme={{colors:{primary:'#00aaff'}}}
             label="Nova senha"
             secureTextEntry={visibility ? false : true}
@@ -80,6 +99,7 @@ export default function App({navigation}) {
           </View>
           <View>
           <TextInput
+          style={{marginTop:10}}
           theme={{colors:{primary:'#00aaff'}}}
             label="Confirme a senha"
             secureTextEntry={visibility ? false : true}
@@ -107,13 +127,14 @@ export default function App({navigation}) {
           <Button 
           style={{backgroundColor:Colors.green500,justifyContent:'center',flex:1}}
           labelStyle={{textAlign:'center'}}
-           mode="contained" onPress={() => console.log('Pressed')}>
+           mode="contained" onPress={() => novasena()}>
              salvar
           </Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
@@ -135,7 +156,8 @@ const styles = StyleSheet.create({
       height: 40,
       borderColor: "#000000",
       borderBottomWidth: 1,
-      marginBottom: 36
+      marginBottom: 36,
+      marginTop:10
     },
     btnContainer: {
         marginTop: 12,

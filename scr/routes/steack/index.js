@@ -10,6 +10,7 @@ import RecuperarSenha from '../../pages/recuperarSenha'
 import Event from '../../pages/evento'
 import Perfil from '../../pages/perfil'
 import Validar from '../../pages/validar'
+import Recsenha from '../../pages/recuperar'
 import {useUsuario} from '../../contexto/usuario'
 
 const Stack = createStackNavigator();
@@ -31,6 +32,7 @@ export function Routes() {
         
           <Stack.Screen name="Event" component={Event} options={{headerShown:false}}/>
           <Stack.Screen name="Validar" component={Validar} options={{headerShown:false}}/>
+          <Stack.Screen name="Recsenha" component={Recsenha} options={{headerShown:false}}/>
           <Stack.Screen name="Login" component={Login} options={{
           headerStyle:{
             backgroundColor:Colors.green400,

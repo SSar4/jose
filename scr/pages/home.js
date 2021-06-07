@@ -1,6 +1,7 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
 
 import {
   SafeAreaView,
@@ -12,10 +13,11 @@ import {
   ActivityIndicator,
   StatusBar,
   Alert,
+  Image,
   
 } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { Appbar, Colors } from 'react-native-paper';
+import { Appbar, Colors, Card,Title,Paragraph } from 'react-native-paper';
 import { useUsuario } from '../contexto/usuario'
 
 const App = ({ navigation }) => {
@@ -77,13 +79,51 @@ const App = ({ navigation }) => {
   };
 
   const ItemView = ({ item }) => {
+    console.log(item)
     return (
-      // Flat List Item
-      <Text
-        style={styles.itemStyle}
-        onPress={() => getItem(item)}>
-        {item.titulo}
-      </Text>
+      <Card 
+      onPress={() => {
+        /* 1. Navigate to the Details route with params */
+        navigation.navigate('Event', {
+          evento:item
+        });
+      }}
+       style={{width:'90%',alignSelf:'center',marginBottom:10}}>
+     < Card.Cover source={{  uri:`data:image/png;base64,${item.capa}`, }} />
+    <Card style={{
+        height:45,
+        elevation:0}}>
+    <Card.Title
+          style={{
+              marginTop:20,
+              marginLeft:20,
+              maxHeight:25,
+              minHeight:25,
+              borderRadius:10,
+              elevation:3,
+              width:'25%',height:100,backgroundColor:Colors.green300}}
+              titleStyle={{
+              color:'white',
+              fontSize:10,
+              paddingTop:0
+          }}
+          title={'online'}/>
+          
+    </Card>
+    <Card.Content>
+    <Title>{item.titulo}</Title>
+    <Card.Actions>
+    <FontAwesome name="calendar" size={18} color={Colors.green300} />
+    <Paragraph> {'Início: ' +item.dataInicio.slice(0,10)} </Paragraph>
+    
+    </Card.Actions>
+    
+    <Card.Actions>
+    <Paragraph> {'Inscrições abertas em: ' +item.inicioInscricao.slice(0,10)} </Paragraph>
+    </Card.Actions>
+    
+  </Card.Content>
+    </Card>
     );
   };
 
