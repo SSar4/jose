@@ -13,8 +13,13 @@ export default function App({ navigation, route }) {
   const _handleSearch = () => console.log('Searching');
 
   const _handleMore = () => console.log('Shown more');
+
   function incricao(){
     Alert.alert("Você está inscrito para o evento "+evento.titulo)
+  }
+
+  function credenciar(){
+
   }
 
   return (
@@ -31,7 +36,7 @@ export default function App({ navigation, route }) {
         <Card style={styles.card}>
           <Card.Cover source={{ uri: `data:image/png;base64,${evento.capa}`, }} />
           <Card.Actions>
-            <Button color='#00aaff'>Credenciar-se</Button>
+            <Button color='#00aaff' onPress={() => navigation.navigate('Credenciar',{evento:evento})}>Credenciar-se</Button>
           </Card.Actions>
           <Card.Title title="Inscriçõs abertas" subtitle={evento.inicioInscricao.slice(0, 10)
             + ' até ' + evento.inicioInscricao.slice(0, 10)} />
