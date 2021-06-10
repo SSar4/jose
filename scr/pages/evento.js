@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Appbar, Card, Colors, Headline, Button,Title,Paragraph } from 'react-native-paper';
-import { StatusBar, StyleSheet, View, Text, ScrollView } from 'react-native'
+import { StatusBar, StyleSheet, View, Text, ScrollView, Alert } from 'react-native'
 import MapView from 'react-native-maps';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -13,6 +13,9 @@ export default function App({ navigation, route }) {
   const _handleSearch = () => console.log('Searching');
 
   const _handleMore = () => console.log('Shown more');
+  function incricao(){
+    Alert.alert("Você está inscrito para o evento "+evento.titulo)
+  }
 
   return (
     <View style={styles.container}>
@@ -43,9 +46,13 @@ export default function App({ navigation, route }) {
               <Paragraph style={{marginLeft:10}}>{'Termino: '+evento.dataTernino}</Paragraph>
               </View>
           </Card.Content>
-
+          <View>
+                <Button style={styles.btn} icon="check" mode="contained" onPress={() =>incricao()}>
+                    Participar
+               </Button>
+            </View>
           <Text style={[styles.text, { textAlign: 'justify' }]}>
-                {evento.descricao}
+               Descrição: {evento.descricao}
           </Text>
           <View style={styles.containermap}>
             <MapView
@@ -231,7 +238,9 @@ export default function App({ navigation, route }) {
                 fillColor="#80bfff"
               />
             </MapView>
+            
           </View>
+          
         </Card>
       </ScrollView>
 
@@ -280,5 +289,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  btn:{
+    marginTop:10,
+    backgroundColor:Colors.green400
+  }
 
 })

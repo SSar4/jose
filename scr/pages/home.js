@@ -107,7 +107,7 @@ const App = ({ navigation }) => {
               fontSize:10,
               paddingTop:0
           }}
-          title={'online'}/>
+          title={item.formato}/>
           
     </Card>
     <Card.Content>
