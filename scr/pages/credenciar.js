@@ -1,12 +1,8 @@
 import * as React from 'react';
-import { Appbar, Colors, TextInput, Button } from 'react-native-paper';
-import {
-    View,
-    StyleSheet,
-    Alert, 
-    Text
-} from 'react-native'
-import { Title } from 'react-native-paper';
+import { Appbar, Card, Colors, Headline, Button,Title,Paragraph } from 'react-native-paper';
+import { StatusBar, StyleSheet, View, Text, ScrollView, Alert } from 'react-native'
+import MapView from 'react-native-maps';
+import { FontAwesome5 } from '@expo/vector-icons';
 import api from '../sever/index'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUsuario} from '../contexto/usuario'
@@ -21,7 +17,7 @@ const MyComponent = ({ navigation,route }) => {
     const [text, setText] = React.useState('');
     const {usuario,setUsuario} = useUsuario()
     function validar(){
-        api.post('http://192.168.0.103:8084/api/usuarios/habilitar/',{
+        api.post('http://192.168.0.100:8084/api/usuarios/habilitar/',{
             id:text
 
         }).then((res)=>{
@@ -39,11 +35,14 @@ const MyComponent = ({ navigation,route }) => {
         <View style={styles.container}>
             <Appbar.Header style={styles.Header}>
                 <Appbar.BackAction onPress={_goBack} color='white' />
-                <Appbar.Content title="entrar no evento" titleStyle={{ color: 'white' }} />
+                <Appbar.Content title="Entrar no evento" titleStyle={{ color: 'white' }} />
             </Appbar.Header>
             <View style={styles.grid}>
-         <Text style={styles.titulo}>Mostre o código para confirmar entrada evento: {evento.titulo}</Text>   
+         <Text style={styles.titulo}>Mostre o código para confirmar entrada no: {evento.titulo}</Text>   
+               <View style={styles.qrcode}> 
+               < Card.Cover source={{  uri:`https://www.patrick-wied.at/static/qrgen/qrgen.php?content=A%20text,%20your%20name,%20a%20number%20or%20anything...%20;)`, }} />
                
+               </View>
                 <Button style={styles.btn} icon="check" mode="contained"  onPress={() => navigation.navigate('Event')}>
                     OK
                </Button>
@@ -53,6 +52,7 @@ const MyComponent = ({ navigation,route }) => {
     );
 };
 const styles = StyleSheet.create({
+    //< Card.Cover source={{  uri:`data:image/png;base64,${evento.capa}`, }} />
     container: {
         width: '100%',
         height: '100%',
@@ -75,6 +75,14 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
 
 
+    },
+    qrcode:{
+        marginTop:10,
+        width:'80%',
+        //height:'50%',
+        justifyContent:'center',
+        alignContent:'center',
+        marginLeft:30
     },
     gridinput: {
         width: '85%',

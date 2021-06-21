@@ -15,7 +15,7 @@ export default function App({ navigation, route }) {
   const _handleMore = () => console.log('Shown more');
 
   function incricao(){
-    Alert.alert("Você está inscrito para o evento "+evento.titulo)
+    Alert.alert("Você está inscrito para o evento "+ evento.endereco.localizacao.lat+'   '+ evento.endereco.localizacao.lat)
   }
 
   function credenciar(){
@@ -24,7 +24,7 @@ export default function App({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={Colors.grey600}></StatusBar>
+      <StatusBar ></StatusBar>
       <Appbar.Header style={styles.header}>
         <Appbar.BackAction onPress={_goBack} color='white' />
         <Appbar.Content title=" " subtitle=" " color='white' />
@@ -59,13 +59,14 @@ export default function App({ navigation, route }) {
           <Text style={[styles.text, { textAlign: 'justify' }]}>
                Descrição: {evento.descricao}
           </Text>
+          
           <View style={styles.containermap}>
             <MapView
 
               rotateEnabled={false}
               initialRegion={{
-                latitude: -7.17716,
-                longitude: -38.7815,
+                latitude: Number(evento.endereco.localizacao.lat),
+                longitude: Number(evento.endereco.localizacao.lng),
                 latitudeDelta: 0.0143,
                 longitudeDelta: 0.0124
               }}
@@ -234,8 +235,8 @@ export default function App({ navigation, route }) {
               style={styles.map}>
               <MapView.Circle
                 center={{
-                  latitude: -7.17716,
-                  longitude: -38.7815,
+                  latitude: Number(evento.endereco.localizacao.lat),
+                longitude: Number(evento.endereco.localizacao.lng),
                 }}
                 radius={25}
                 strokeWidth={5}
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   header: {
-    backgroundColor: '#A9A9A9'
+    backgroundColor: Colors.green400
   },
   titulo: {
     textAlign: 'center',

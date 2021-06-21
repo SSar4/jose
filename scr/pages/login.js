@@ -25,7 +25,7 @@ const KeyboardAvoidingComponent = ({ navigation }) => {
     let user = new Object();
     user.email = text
     user.senha = senha
-    api.post('http://192.168.0.103:8084/api/usuarios/login', {
+    api.post('http://192.168.0.100:8084/api/usuarios/login', {
       email: text,
       senha: senha
     }).then((response) => {

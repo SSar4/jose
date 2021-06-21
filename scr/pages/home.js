@@ -40,7 +40,7 @@ const App = ({ navigation }) => {
     console.log('getData');
     setLoading(true);
     //Service to get the data from the server to render
-    fetch('http://192.168.0.103:8081/api/eventos/?page='
+    fetch('http://192.168.0.100:8081/api/eventos/?page='
       + offset)
 
       //Sending the currect offset with get request
@@ -154,7 +154,7 @@ const App = ({ navigation }) => {
         <Appbar.Action icon="calendar" onPress={_handleSearch} color='white' />
         {
           usuario ? <>
-            <TouchableOpacity onPress={() => logout()}>
+            <TouchableOpacity onPress={() => navigation.navigate('Perfil') }>
               <Avatar.Image  size={24} source={{
                 uri:
                   `data:image/png;base64,${usuario[0].foto}`,

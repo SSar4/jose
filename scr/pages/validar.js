@@ -19,7 +19,7 @@ const MyComponent = ({ navigation }) => {
     const [text, setText] = React.useState('');
     const {usuario,setUsuario} = useUsuario()
     function validar(){
-        api.post('http://192.168.0.103:8084/api/usuarios/habilitar/',{
+        api.post('http://192.168.0.100:8084/api/usuarios/habilitar/',{
             id:text
 
         }).then((res)=>{

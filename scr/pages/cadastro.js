@@ -12,7 +12,7 @@ export default function App({navigation}) {
     const {usuario,setUsuario} = useUsuario()
     async function cadastrar(){
       //Alert.alert("oi")
-      api.post('http://192.168.0.103:8084/api/usuarios/',{
+      api.post('http://192.168.0.100:8084/api/usuarios/',{
         nome:nome,
         email:email,
         senha:senha
