@@ -13,6 +13,7 @@ import Validar from '../../pages/validar'
 import Recsenha from '../../pages/recuperar'
 import Credenciar from '../../pages/credenciar'
 import {useUsuario} from '../../contexto/usuario'
+import Editar from '../../pages/editar'
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,9 @@ export function Routes() {
           <Stack.Screen name="Perfil" component={Perfil} options={{headerShown:false}}/>
           <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
           <Stack.Screen name="Event" component={Event} options={{headerShown:false}}/>
+          <Stack.Screen name="Editar" component={Editar} options={{headerShown:false}}/>
+          <Stack.Screen name="Credenciar" component={Credenciar} options={{headerShown:false}}/>
+          
           </>
           :
           <>
@@ -33,7 +37,6 @@ export function Routes() {
         
           <Stack.Screen name="Event" component={Event} options={{headerShown:false}}/>
           <Stack.Screen name="Validar" component={Validar} options={{headerShown:false}}/>
-          <Stack.Screen name="Credenciar" component={Credenciar} options={{headerShown:false}}/>
           <Stack.Screen name="Recsenha" component={Recsenha} options={{headerShown:false}}/>
           <Stack.Screen name="Login" component={Login} options={{
           headerStyle:{

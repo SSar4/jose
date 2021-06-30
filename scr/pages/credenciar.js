@@ -40,7 +40,7 @@ const MyComponent = ({ navigation,route }) => {
             <View style={styles.grid}>
          <Text style={styles.titulo}>Mostre o código para confirmar entrada no: {evento.titulo}</Text>   
                <View style={styles.qrcode}> 
-               < Card.Cover source={{  uri:`https://www.patrick-wied.at/static/qrgen/qrgen.php?content=A%20text,%20your%20name,%20a%20number%20or%20anything...%20;)`, }} />
+               < Card.Cover source={require('../../assets/qrcode.png')} />
                
                </View>
                 <Button style={styles.btn} icon="check" mode="contained"  onPress={() => navigation.navigate('Event')}>

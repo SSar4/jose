@@ -28,11 +28,7 @@ const App = ({ navigation }) => {
   const _handleSearch = () => console.log('Searching');
 
   const _handleMore = () => navigation.navigate('Login');
-  async function logout(){
-    await AsyncStorage.removeItem('@usuario')
-    Alert.alert("Volte logo")
-    setUsuario(null)
-  }
+ 
 
   useEffect(() => getData(), []);
 

@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Appbar, Card, Colors, Headline, Button,Title,Paragraph } from 'react-native-paper';
-import { StatusBar, StyleSheet, View, Text, ScrollView, Alert } from 'react-native'
+import {TouchableOpacity,FlatList, StatusBar, StyleSheet, View, Text, ScrollView, Alert } from 'react-native'
 import MapView from 'react-native-maps';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { List } from 'react-native-paper';
+import {  Dialog, Portal, Provider } from 'react-native-paper';
 
 export default function App({ navigation, route }) {
   const { evento } = route.params;
@@ -13,17 +15,42 @@ export default function App({ navigation, route }) {
   const _handleSearch = () => console.log('Searching');
 
   const _handleMore = () => console.log('Shown more');
+//const [atividades] = React.useState([][]) 
+const [visible, setVisible] = React.useState(false);
 
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => setVisible(false);
+const atividades = [
+  {
+    id:"e4455o50o50o505o50550",
+    titulo:"curso de nodejs",
+    data:"30/06/2021",
+    hora:"às 08:45 am "
+  }
+]
   function incricao(){
-    Alert.alert("Você está inscrito para o evento "+ evento.endereco.localizacao.lat+'   '+ evento.endereco.localizacao.lat)
+    Alert.alert("Você está inscrito para o evento "+evento.titulo)
   }
 
   function credenciar(){
 
   }
-
+ 
+  const renderItem = ({item}) =>{
+    return (
+      <Card onPress={showDialog}>
+        <List.Item
+    title= {item.titulo}
+    description= {item.data+item.hora}
+    left={props => <List.Icon {...props} icon="pencil" />}
+  />
+      </Card>
+    )
+  }
+  
   return (
-    <View style={styles.container}>
+    <Provider style={styles.container}>
       <StatusBar ></StatusBar>
       <Appbar.Header style={styles.header}>
         <Appbar.BackAction onPress={_goBack} color='white' />
@@ -248,9 +275,28 @@ export default function App({ navigation, route }) {
           </View>
           
         </Card>
+        <View style={styles.gridItem}>
+        <FlatList
+        data={atividades}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+        </View>
+       
       </ScrollView>
+      <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>Inscreva-se </Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>desejo se inscrever nesta atividade?</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button labelStyle={{color:Colors.green400}} onPress={hideDialog}>Confirmar</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
 
-    </View>
+    </Provider>
   );
 };
 
@@ -298,6 +344,9 @@ const styles = StyleSheet.create({
   btn:{
     marginTop:10,
     backgroundColor:Colors.green400
+  },
+  gridItem:{
+   marginBottom:4
   }
 
 })
